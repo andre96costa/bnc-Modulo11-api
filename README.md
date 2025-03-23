@@ -1,66 +1,38 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+## Módulo 11 - API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Application Programming Interface
 
-## About Laravel
+Apis podem ser web, pacotes e outros tipos.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+REST: Representational State Transfer
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- Progressivo
+- Leve
+- Rápido
+- Escalável
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+No laravel, ao criar um um controller usando o artisan, podemos passar a flag *--api* para gerar apenas os métodos usados pela api.
 
-## Learning Laravel
+Nos arquivos de rotas podemos utilizar o comando *Route::apiResource* para gerar todas as rotas automaticamente.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+No laravel 11+, os arquivos relacionados a api, como o arquivo api.php, não são criados por padrão. É necessário executar o comando *artisan install:api* esse comando ira instalar o sanctum e criar os arquivos de api do laravel.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+No arquivo *bootstrap/app.php* no método *withRouting()* podemos mudar alguns dos comportamentos padrão. Como alterar o prefixo padrão das rotas de api para qualquer outra coisa.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+A sessão https://laravel.com/docs/12.x/routing#routing-customization mostra varias customizações que podem ser feitas.
 
-## Laravel Sponsors
+O laravel possui um recurso chamado *resource*, esse recurso permite criar um formato de resposta para a chamadas das APIs. Para criar um resource para um recurso utilizamos o comando *art make:resource.* O resource funciona para 1 recurso apenas. Para retornar vários dados podemos utilizar uma collections, através do mesmo comando utilizando o sufixo *Collections* criamos um recurso de collection.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Podemos utilizar um resource dentro do outro para formatar de maneira mais interna os dados retornados.
 
-### Premium Partners
+As collections são usadas quando precisamos retornar o recurso e mais informações. Na collection podemos usar a variável *$this*->collection, está variável ira procurar uma classe resource para retornar os dados do recurso, caso não encontre ou não exista ela ira buscar direto no model.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### Autenticação
 
-## Contributing
+No laravel quando trabalhamos com API por padrão o pacote *Sanctum* é instalado. Este pacote permite trabalhar com tokens de autenticação. Por padrão na classe *User* utilizamos a *trait HasApiTokens* que nos da métodos para criar e gerenciar o token de acesso.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Esse token deve ser passado nos headers das requisições que estiverem utilizando o *middlewere sanctum* para autenticar as rotas.
 
-## Code of Conduct
+### Versionamento de API
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Existem varias opções para versionar uma api no laravel.
